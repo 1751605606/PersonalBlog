@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS `user`(
+    `id` bigint unsigned AUTO_INCREMENT comment'用户id',
+    `username` varchar(100) comment'用户名称',
+    `password` varchar(100) comment '用户密码',
+    primary key(`id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `articles`(
+    `id` bigint unsigned AUTO_INCREMENT comment'文章id',
+    `title` varchar(100) comment'文章标题',
+    `text` varchar(100) comment '文章内容',
+    primary key(`id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

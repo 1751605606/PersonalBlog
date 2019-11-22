@@ -14,12 +14,22 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:123456@127.0.0.1:3306/personalblog'
+    DATABASE = 'mysql'
+    DRIVER = 'pymysql'
+    USERNAME = 'root'
+    PASSWORD = '123456'
+    HOST = '127.0.0.1'
+    PORT = '3306'
+    DATABASE_NAME = 'blog'
+    SQLALCHEMY_DATABASE_URI = '{}+{}://{}:{}@{}:{}/{}?charset=utf8'.format(
+        DATABASE, DRIVER, USERNAME, PASSWORD, HOST, PORT, DATABASE_NAME
+    )
+    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@127.0.0.1:3306/blog'
 
 
 class ProductionConfig(Config):
     # os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:123456@127.0.0.1:3306/personalblog'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@127.0.0.1:3306/blog'
 
 
 config = {

@@ -48,3 +48,15 @@ class Article(db.Model):
     def delete_article(self):
         with db.auto_commit_db():
             db.session.delete(self)
+
+    def view_article(self):
+        with db.auto_commit_db():
+            self.view_number += 1
+
+    def like_article(self):
+        with db.auto_commit_db():
+            self.like_number += 1
+
+    def update_article(self):
+        with db.auto_commit_db():
+            pass

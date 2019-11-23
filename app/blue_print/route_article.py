@@ -128,9 +128,12 @@ def get_articles():
         articles_list = []
         for article in result:
             article = {
-                'id': article.id,
-                'title': article.title,
-                'text':  article.text
+                "id": article.id,
+                "title": article.title,
+                "text": article.text,
+                "view_number": article.view_number,
+                "like_number": article.like_number,
+                "comment_number": article.comment_number
             }
             articles_list.append(article)
         response = {

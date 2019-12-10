@@ -11,7 +11,7 @@ def index():
     return render_template("index.html")
 
 
-@blue_print.route('/api/user/register', methods=['GET','POST'])
+@blue_print.route('/api/user/register', methods=['GET', 'POST'])
 def user_register():
     if request.method == 'POST':
         json_data = json.loads(request.get_data())

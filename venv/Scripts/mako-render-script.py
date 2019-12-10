@@ -1,4 +1,4 @@
-#!c:\models\lenovo\desktop\teamproject\venv\scripts\python.exe
+#!c:\model\lenovo\desktop\teamproject\venv\scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'Mako==1.1.0','console_scripts','mako-render'
 __requires__ = 'Mako==1.1.0'
 import re

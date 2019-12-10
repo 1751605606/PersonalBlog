@@ -1,4 +1,4 @@
-#!c:\models\lenovo\desktop\teamproject\venv\scripts\python.exe
+#!c:\model\lenovo\desktop\teamproject\venv\scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'alembic==1.3.1','console_scripts','alembic'
 __requires__ = 'alembic==1.3.1'
 import re

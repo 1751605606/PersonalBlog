@@ -3,4 +3,4 @@ from flask import Blueprint
 blue_print = Blueprint('blue_print', __name__)
 
 # 放在底部防止循环引用
-from . import route, errors
+from . import route,route_article , errors, utils

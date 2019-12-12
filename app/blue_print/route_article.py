@@ -16,7 +16,15 @@ import jieba
 def post_article():
     if request.method == 'POST':
         # 验证token
-
+        # if not token_true() :
+        #   return {
+        #       "code": "200",
+        #       "error": {
+        #           'type': "operation is rejected",
+        #           'message': "you have no right to operate"
+        #       },
+        #       "data": {}
+        #   }
         # 存储文章
         json_data = json.loads(request.get_data())
         id = json_data.get('id')
@@ -31,15 +39,25 @@ def post_article():
         try:
             # 没有上传classname, 添加到默认分类classname = None
             classname_id = None
-            if classname is not None and classname.strip() != "":
-                result = db.session.query(ClassName).filter_by(name=classname.strip()).first()
-                # classname 不存在,创建classname
-                if result is None:
-                    temp = ClassName(classname)
-                    temp.add_classname()
-                    classname_id = temp.id
+            if classname is not None:
+                if classname.strip() != "":
+                    result = db.session.query(ClassName).filter_by(name=classname.strip()).first()
+                    # classname 不存在,创建classname
+                    if result is None:
+                        temp = ClassName(classname.strip())
+                        temp.add_classname()
+                        classname_id = temp.id
+                    else:
+                        classname_id = result.id
                 else:
-                    classname_id = result.id
+                    return {
+                        "code": "200",
+                        "error": {
+                            "type": "argument error",
+                            "message": "classname can not be null"
+                        }
+                    }
+                    pass
             if id is None:
                 # 创建新的文章
                 article = Article(None, title, text, classname_id, labels, 0, 0, 0)
@@ -113,6 +131,15 @@ def get_article_by_id(article_id):
 def delete_article_by_id(article_id):
     if request.method == 'DELETE':
         # 验证token
+        # if not token_true() :
+        #   return {
+        #       "code": "200",
+        #       "error": {
+        #           'type': "operation is rejected",
+        #           'message': "you have no right to operate"
+        #       },
+        #       "data": {}
+        #   }
         # 数据库删除文章
         article = db.session.query(Article).filter_by(id=article_id).first()
         if article is None:
@@ -267,7 +294,7 @@ def search_article():
                     'code': '200',
                     'error': {
                         "type": "classname not found",
-                        "message": "classname " + classname + "does not exist"
+                        "message": "classname " + classname + " does not exist"
                     },
                     'data': {}
                 }
@@ -345,7 +372,7 @@ def get_statistics():
 def get_all_classname():
     if request.method == 'GET':
         result = db.session.query(ClassName).all()
-        name_list = []
+        name_list = [None]
         for name in result:
             name_list.append(name.name)
         response = {
@@ -360,6 +387,16 @@ def get_all_classname():
 @blue_print.route('/api/article/classname/<classname>', methods=['DELETE'])
 def delete_classname(classname):
     if request.method == 'DELETE':
+        # 验证token
+        # if not token_true() :
+        #   return {
+        #       "code": "200",
+        #       "error": {
+        #           'type': "operation is rejected",
+        #           'message': "you have no right to operate"
+        #       },
+        #       "data": {}
+        #   }
         result = db.session.query(ClassName).filter_by(name=classname).first()
         if result is None:
             return {

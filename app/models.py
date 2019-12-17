@@ -66,8 +66,21 @@ class Article(db.Model):
             pass
 
 
-# class Comments(db.Model):
-#     __tablename__ = 'comments'
-#     comment_id = db.Column(db.Integer, primary_key=True)
-#     article_id = db.Column(db.Integer, db.ForeignKey('article.id'))
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    article_id = db.Column(db.Integer, db.ForeignKey('article.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    text = db.Column(db.text)
+    timestamp = db.Column(db.Integer)
+
+    def __init__(self, id, article_id, user_id, text, timestamp):
+        self.id = id
+        self.article_id = article_id
+        self.user_id = user_id
+        self.text = text
+        self.timestamp = timestamp
+
+    def add_comment(self):
+        with db.auto_commit_db():
+            db.session.add(self)

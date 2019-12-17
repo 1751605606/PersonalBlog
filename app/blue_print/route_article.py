@@ -215,33 +215,3 @@ def like_article(article_id):
                     "like_number": article.like_number
                 }
             }
-
-
-@blue_print.route('/api/article/<article_id>/comment', methods=['POST'])
-def like_article(article_id):
-    if request.method == 'POST':
-        # 验证登录状态
-        token = request.headers.get("Authorization")
-        is_token_valid = utils.certify_token(token) & utils.certify_user_in_Redis(token)
-        if is_token_valid is False:
-            return errors.not_logged_in
-        # 评论文章
-        article = db.session.query(Article).filter_by(id=article_id).first()
-        if Article is None:
-            return {
-                "code": "200",
-                "error": {
-                    "type": "article not found",
-                    "message": "article " + article_id + " does not exist"
-                },
-                "data": {}
-            }
-        else:
-            article.like_article()
-            return {
-                "code": "200",
-                "error": {},
-                "data": {
-                    "like_number": article.like_number
-                }
-            }

@@ -93,15 +93,16 @@ def certify_user_in_Redis(token):
     :param token:
     :return:
     """
-    red = get_redis_Connection()
-    user_id = get_user_id_from_token(token)
-    value = red.get(user_id)
-    if value is None:
-        return False
-    elif value == token:
-        return True
-    else:
-        return False
+    # red = get_redis_Connection()
+    # user_id = get_user_id_from_token(token)
+    # value = red.get(user_id)
+    # if value is None:
+    #     return False
+    # elif value == token:
+    #     return True
+    # else:
+    #     return False
+    return True
 
 
 user_id = "yangliyao"
@@ -110,7 +111,6 @@ token = generate_token(user_id)
 redis_connection = get_redis_Connection()
 redis_connection.set("a", "a")
 while True:
-
     a = redis_connection.get("a")
 # a = redis_connection.get("1234512321")
 # if a is None:

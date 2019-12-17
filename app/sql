@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS `comments`(
     `comment_id` bigint unsigned AUTO_INCREMENT comment'评论id',
     `article_id` bigint unsigned comment'文章id',
     `user_id` bigint unsigned comment'用户id',
-    `comment` text comment'文章评论',
+    `text` text comment'评论内容',
+    `timestamp` timestamp comment'评论时间',
     primary key(`comment_id` ),
     constraint fk_articleId
     foreign key(`article_id`) references `articles`(`id`),

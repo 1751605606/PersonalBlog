@@ -37,9 +37,10 @@ def user_register():
             # 未发生异常, 生成token, 加入白名单，token分发
             else:
                 token = utils.generate_token(user.id)
-                redis_conn = utils.get_redis_Connection()
-                redis_conn.set(user.id, token)
-                redis_conn.expire(user.id, 43200)
+                # redis白名单维护
+                # redis_conn = utils.get_redis_Connection()
+                # redis_conn.set(user.id, token)
+                # redis_conn.expire(user.id, 43200)
                 return {
                     "code": "200",
                     "error": {},
@@ -116,9 +117,10 @@ def user_login():
         else:
             # 生成token, 加入白名单，token分发
             token = utils.generate_token(user.id)
-            redis_conn = utils.get_redis_Connection()
-            redis_conn.set(user.id, token)
-            redis_conn.expire(user.id, 43200)
+            # redis白名单维护
+            # redis_conn = utils.get_redis_Connection()
+            # redis_conn.set(user.id, token)
+            # redis_conn.expire(user.id, 43200)
             # session['username'] = username
             group_id = "1" if username == 'admin' else "0"
             return {

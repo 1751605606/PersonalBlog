@@ -23,3 +23,16 @@ CREATE TABLE IF NOT EXISTS `classnames`(
     `name` varchar(100) comment'类别名',
     primary key(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `comments`(
+    `id` bigint unsigned AUTO_INCREMENT comment'评论id',
+    `article_id` bigint unsigned comment'文章id',
+    `user_id` bigint unsigned comment'用户id',
+    `text` text comment'评论内容',
+    `timestamp` int comment'评论时间',
+    primary key(`id` ),
+    constraint fk_articleId
+    foreign key(`article_id`) references `articles`(`id`),
+    constraint fk_userId
+    foreign key(`user_id`) references `users`(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

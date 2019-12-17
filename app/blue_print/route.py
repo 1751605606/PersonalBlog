@@ -4,6 +4,7 @@ from flask import *
 import json
 from app.models import *
 from app import db
+from . import utils
 
 
 @blue_print.route('/', methods=['POST', 'GET'])
@@ -33,13 +34,18 @@ def user_register():
                     },
                     "data": {}
                 }
-            # 未发生异常
+            # 未发生异常, 生成token, 加入白名单，token分发
             else:
+                token = utils.generate_token(str(user.id))
+                # redis白名单维护
+                # redis_conn = utils.get_redis_Connection()
+                # redis_conn.set(user.id, token)
+                # redis_conn.expire(user.id, 43200)
                 return {
                     "code": "200",
                     "error": {},
                     "data": {
-                        "token": "token"
+                        "token": str(token)
                     }
                 }
         else:
@@ -51,7 +57,6 @@ def user_register():
                 },
                 "data": {}
             }
-    return render_template("register.html")
 
 #  #单用户版本
 # @blue_print.route('/api/user/login_1', methods=['POST', 'GET'])
@@ -108,7 +113,13 @@ def user_login():
                 "data": {}
             }
         else:
-            session['username'] = username
+            # 生成token, 加入白名单，token分发
+            token = utils.generate_token(str(user.id))
+            # redis白名单维护
+            # redis_conn = utils.get_redis_Connection()
+            # redis_conn.set(user.id, token)
+            # redis_conn.expire(user.id, 43200)
+            # session['username'] = username
             group_id = "1" if username == 'admin' else "0"
             return {
                 "code": "200",
@@ -116,18 +127,18 @@ def user_login():
                 "data": {
                     "id": user.id,
                     "group_id": group_id,
-                    "token": "token"
+                    "token": token
                 }
             }
-    if 'username' in session:
-        return {
-                "code": "200",
-                "error": {},
-                "data": {
-                    "token": "token"
-                }
-            }
-    return render_template("login.html")
+    # if 'username' in session:
+    #     return {
+    #         "code": "200",
+    #         "error": {},
+    #         "data": {
+    #             "token": "token"
+    #         }
+    #     }
+    # return render_template("login.html")
 
 
 @blue_print.route('/api/user/logout')
@@ -136,3 +147,66 @@ def logout():
     return redirect(url_for('user_login'))
 
 
+@blue_print.route('/api/user/modify', methods=['POST', 'GET'])
+def user_modify():
+    if request.method == 'POST':
+        token = request.headers.get("Authorization")
+        is_token_valid = utils.certify_token(token) & utils.certify_user_in_Redis(token)
+        if is_token_valid is False:
+            return {
+                "code": "401",
+                "error": {
+                    "type": "unauthorized",
+                    "message": "user not logged in"
+                },
+                "data": {}
+            }
+        json_data = json.loads(request.get_data())
+        id = json_data.get("id")
+        username = json_data.get("username")
+        password = json_data.get("password")
+        user = db.session.query(User).filter_by(id=id).first()
+        if user is None:
+            return {
+                "code": "401",
+                "error": {
+                    "type": "user not found",
+                    "message": "username or password is not right"
+                },
+                "data": {}
+            }
+        else:
+            user.username = username
+            user.password = password
+            user.update_user()
+            # user_id = utils.get_user_id_from_token(token)
+            # redis_conn = utils.redis_connection
+            # redis_conn.delete(user_id)
+            return {
+                "code": "200",
+                "error": {
+                    "type": "requires re-login",
+                    "message": "Information changed, need to re-login",
+                }
+            }
+    # if 'username' in session:
+    #     return {
+    #         "code": "200",
+    #         "error": {},
+    #         "data": {
+    #             "token": "token"
+    #         }
+    #     }
+    # return render_template("login.html")
+
+
+# @blue_print.route('/api/user/logout')
+# def logout():
+#     # session.pop('username', None)
+#     token = request.headers.get("Authorization")
+#     is_token_valid = utils.certify_token(token) & utils.certify_user_in_Redis(token)
+#     if is_token_valid:
+#         user_id = utils.get_user_id_from_token(token)
+#         redis_conn = utils.redis_connection
+#         redis_conn.delete(user_id)
+#     return redirect(url_for('user_login'))

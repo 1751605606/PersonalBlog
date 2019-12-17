@@ -80,3 +80,23 @@ class ClassName(db.Model):
     def add_classname(self):
         with db.auto_commit_db():
             db.session.add(self)
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    text = db.Column(db.Text)
+    timestamp = db.Column(db.Integer)
+
+    def __init__(self, id, article_id, user_id, text, timestamp):
+        self.id = id
+        self.article_id = article_id
+        self.user_id = user_id
+        self.text = text
+        self.timestamp = timestamp
+
+    def add_comment(self):
+        with db.auto_commit_db():
+            db.session.add(self)

@@ -6,6 +6,8 @@ from app.models import *
 from app import db
 from sqlalchemy import func
 import jieba
+from . import utils
+from . import errors
 
 '''
 发布/修改文章
@@ -15,17 +17,17 @@ import jieba
 @blue_print.route('/api/article', methods=['POST'])
 def post_article():
     if request.method == 'POST':
-        # 验证token
-        # if not token_true() :
-        #   return {
-        #       "code": "200",
-        #       "error": {
-        #           'type': "operation is rejected",
-        #           'message': "you have no right to operate"
-        #       },
-        #       "data": {}
-        #   }
-        # 存储文章
+        # 验证token登录状态
+        token = request.headers.get("Authorization")
+        is_token_valid = utils.certify_token(token) & utils.certify_user_in_Redis(token)
+        if is_token_valid is False:
+            return errors.not_logged_in()
+        # 验证token对应权限
+        user_id = utils.get_user_id_from_token(token)
+        user = db.session.query(User).filter_by(id=user_id).first()
+        if user.group_id != 1:
+            return errors.no_access()
+
         json_data = json.loads(request.get_data())
         id = json_data.get('id')
         title = json_data.get("title")
@@ -33,7 +35,7 @@ def post_article():
         classname = json_data.get("classname")
         # 用'\t'连接labels数组的前五个标签
         if json_data.get("labels") is not None:
-            labels = "\t".join(json_data.get("labels")[:5])
+            labels = "\t".join((json_data.get("labels").strip())[:5])
         else:
             labels = ""
         try:
@@ -72,6 +74,15 @@ def post_article():
             else:
                 # 修改文章信息
                 result = db.session.query(Article).filter_by(id=id).first()
+                if result is None:
+                    return {
+                        "code": "200",
+                        "error": {
+                            "type": "article not found",
+                            "message": "article " + id + " does not exist"
+                        },
+                        "data": {}
+                    }
                 result.title = title
                 result.text = text
                 result.classname_id = classname_id
@@ -130,16 +141,17 @@ def get_article_by_id(article_id):
 @blue_print.route('/api/article/<article_id>', methods=['DELETE'])
 def delete_article_by_id(article_id):
     if request.method == 'DELETE':
-        # 验证token
-        # if not token_true() :
-        #   return {
-        #       "code": "200",
-        #       "error": {
-        #           'type': "operation is rejected",
-        #           'message': "you have no right to operate"
-        #       },
-        #       "data": {}
-        #   }
+        # 验证token登录状态
+        token = request.headers.get("Authorization")
+        is_token_valid = utils.certify_token(token) & utils.certify_user_in_Redis(token)
+        if is_token_valid is False:
+            return errors.not_logged_in
+        # 验证token对应权限
+        user_id = utils.get_user_id_from_token(token)
+        user = db.session.query(User).filter_by(id=user_id).first()
+        if user.group_id != 1:
+            return errors.no_access
+
         # 数据库删除文章
         article = db.session.query(Article).filter_by(id=article_id).first()
         if article is None:
@@ -176,7 +188,7 @@ def get_articles():
         # 查询数据库返回文章
         index = 0 if request.args.get('index') is None else request.args.get('index')
         size = request.args.get('size')
-        classname = request.args.get('classname')
+        classname = request.args.get('classname').strip()
         articles = []
         if classname is None:
             if size is not None:
@@ -192,7 +204,7 @@ def get_articles():
                     'code': '200',
                     'error': {
                         "type": "classname not found",
-                        "message": "classname " + classname + "does not exist"
+                        "message": "classname " + classname + " does not exist"
                     },
                     'data': {}
                 }
@@ -250,6 +262,12 @@ def view_article(article_id):
 @blue_print.route('/api/article/<article_id>/like', methods=['POST'])
 def like_article(article_id):
     if request.method == 'POST':
+        # 验证登录状态
+        token = request.headers.get("Authorization")
+        is_token_valid = utils.certify_token(token) & utils.certify_user_in_Redis(token)
+        if is_token_valid is False:
+            return errors.not_logged_in()
+
         article = db.session.query(Article).filter_by(id=article_id).first()
         if Article is None:
             return {
@@ -292,11 +310,8 @@ def search_article():
             if result is None:
                 return {
                     'code': '200',
-                    'error': {
-                        "type": "classname not found",
-                        "message": "classname " + classname + " does not exist"
-                    },
-                    'data': {}
+                    'error': {},
+                    'data': []
                 }
             else:
                 classname_id = result.id
@@ -312,9 +327,6 @@ def search_article():
                 str = temp.labels + " " + (name.name if name.name is not None else "") + " " + temp.text
                 # jieba分词搜索
                 article_keyword = jieba.cut_for_search(str)
-                # return {
-                #     "1": list(set(article_keyword))
-                # }
                 if set(keyword) <= set(article_keyword):
                     article_list.append({
                         "id": temp.id,
@@ -387,16 +399,17 @@ def get_all_classname():
 @blue_print.route('/api/article/classname/<classname>', methods=['DELETE'])
 def delete_classname(classname):
     if request.method == 'DELETE':
-        # 验证token
-        # if not token_true() :
-        #   return {
-        #       "code": "200",
-        #       "error": {
-        #           'type': "operation is rejected",
-        #           'message': "you have no right to operate"
-        #       },
-        #       "data": {}
-        #   }
+        # 验证token登录状态
+        token = request.headers.get("Authorization")
+        is_token_valid = utils.certify_token(token) & utils.certify_user_in_Redis(token)
+        if is_token_valid is False:
+            return errors.not_logged_in()
+        # 验证token对应权限
+        user_id = utils.get_user_id_from_token(token)
+        user = db.session.query(User).filter_by(id=user_id).first()
+        if user.group_id != 1:
+            return errors.no_access()
+
         result = db.session.query(ClassName).filter_by(name=classname).first()
         if result is None:
             return {

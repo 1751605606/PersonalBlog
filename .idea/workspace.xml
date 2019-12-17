@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ef97b29-5157-4b3f-a062-2e100b20dc65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/blue_print/route_comment.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/blue_print/route.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/blue_print/route.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/blue_print/route_article.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/blue_print/route_article.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/blue_print/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/blue_print/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/my_sqlalchemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/my_sqlalchemy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sql" beforeDir="false" afterPath="$PROJECT_DIR$/app/sql" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +134,7 @@
       <workItem from="1575982444741" duration="1001000" />
       <workItem from="1575983706225" duration="244000" />
       <workItem from="1576540497300" duration="345000" />
-      <workItem from="1576541080102" duration="12286000" />
+      <workItem from="1576541080102" duration="13252000" />
     </task>
     <servers />
   </component>

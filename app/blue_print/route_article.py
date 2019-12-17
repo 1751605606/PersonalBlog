@@ -53,19 +53,18 @@ def post_article():
                         classname_id = result.id
                 else:
                     return {
-                        "code": "200",
+                        "code": "400",
                         "error": {
                             "type": "argument error",
                             "message": "classname can not be null"
                         }
                     }
-                    pass
             if id is None:
                 # 创建新的文章
                 article = Article(None, title, text, classname_id, labels, 0, 0, 0)
                 article.add_article()
                 return {
-                    "code": "200",
+                    "code": "201",
                     "error": {},
                     "data": {
                         "id": article.id
@@ -76,7 +75,7 @@ def post_article():
                 result = db.session.query(Article).filter_by(id=id).first()
                 if result is None:
                     return {
-                        "code": "200",
+                        "code": "400",
                         "error": {
                             "type": "article not found",
                             "message": "article " + id + " does not exist"
@@ -97,7 +96,7 @@ def post_article():
                 }
         except Exception as e:
             return {
-                "code": "200",
+                "code": "502",
                 "error": {
                     'type': "exception occur",
                     'message': str(e)
@@ -113,7 +112,7 @@ def get_article_by_id(article_id):
         article = db.session.query(Article).filter_by(id=article_id).first()
         if article is None:
             return {
-                "code": "200",
+                "code": "400",
                 "error": {
                     "type": "article not found",
                     "message": "article " + article_id + " does not exist"
@@ -156,7 +155,7 @@ def delete_article_by_id(article_id):
         article = db.session.query(Article).filter_by(id=article_id).first()
         if article is None:
             return {
-                "code": "200",
+                "code": "400",
                 "error": {
                     "type": "article not found",
                     "message": "article " + article_id + " does not exist"
@@ -173,7 +172,7 @@ def delete_article_by_id(article_id):
                 }
             except Exception as e:
                 return {
-                    "code": "200",
+                    "code": "502",
                     "error": {
                         "type": "exception occur",
                         "message": str(e)
@@ -201,7 +200,7 @@ def get_articles():
             # classname 不存在
             if result is None:
                 return {
-                    'code': '200',
+                    'code': '400',
                     'error': {
                         "type": "classname not found",
                         "message": "classname " + classname + " does not exist"
@@ -241,7 +240,7 @@ def view_article(article_id):
         article = db.session.query(Article).filter_by(id=article_id).first()
         if Article is None:
             return {
-                "code": "200",
+                "code": "400",
                 "error": {
                     "type": "article not found",
                     "message": "article " + article_id + " does not exist"
@@ -271,7 +270,7 @@ def like_article(article_id):
         article = db.session.query(Article).filter_by(id=article_id).first()
         if Article is None:
             return {
-                "code": "200",
+                "code": "400",
                 "error": {
                     "type": "article not found",
                     "message": "article " + article_id + " does not exist"
@@ -309,7 +308,7 @@ def search_article():
             # classname 不存在
             if result is None:
                 return {
-                    'code': '200',
+                    'code': '400',
                     'error': {},
                     'data': []
                 }
@@ -413,7 +412,7 @@ def delete_classname(classname):
         result = db.session.query(ClassName).filter_by(name=classname).first()
         if result is None:
             return {
-                "code": "200",
+                "code": "400",
                 "error": {
                     "type": "classname not found",
                     "message": "classname " + classname + " does not exist"
@@ -434,7 +433,7 @@ def delete_classname(classname):
                 }
             except Exception as e:
                 return {
-                    "code": "200",
+                    "code": "502",
                     "error": {
                         "type": "exception occur",
                         "message": str(e)

@@ -27,7 +27,7 @@ def user_register():
             # 发生异常
             except Exception as e:
                 return {
-                    "code": "200",
+                    "code": "502",
                     "error": {
                         "type": "exception occur",
                         "message": str(e)
@@ -58,43 +58,6 @@ def user_register():
                 "data": {}
             }
 
-#  #单用户版本
-# @blue_print.route('/api/user/login_1', methods=['POST', 'GET'])
-# def user_login_1():
-#     if request.method == 'POST':
-#         json_data = json.loads(request.get_data())
-#         username = json_data.get("username")
-#         password = json_data.get("password")
-#         if username == 'admin' and password == 'admin':
-#             session['username'] = username
-#             return {
-#                 "code": "200",
-#                 "error": {},
-#                 "data": {
-#                     "token": "token"
-#                 }
-#             }
-#         else:
-#             return {
-#                 "code": "200",
-#                 "error": {
-#                     "type": "user not found",
-#                     "message": "no such user: " + username
-#                 },
-#                 "data": {}
-#             }
-#     if 'username' in session:
-#         return {
-#                 "code": "200",
-#                 "error": {},
-#                 "data": {
-#                     "token": "token"
-#                 }
-#             }
-#     return render_template("login.html")
-
-
-# 多用户版本
 
 @blue_print.route('/api/user/login', methods=['POST', 'GET'])
 def user_login():
@@ -105,7 +68,7 @@ def user_login():
         user = db.session.query(User).filter_by(username=username, password=password).first()
         if user is None:
             return {
-                "code": "200",
+                "code": "400",
                 "error": {
                     "type": "user not found",
                     "message": "username or password is not right"

@@ -29,7 +29,7 @@ def comment_article(article_id):
         article = db.session.query(Article).filter_by(id=article_id).first()
         if Article is None:
             return {
-                "code": "404",
+                "code": "400",
                 "error": {
                     "type": "Not Found",
                     "message": "The article " + article_id + " does not exist"
@@ -82,7 +82,7 @@ def get_comment_by_article(article_id):
             article = db.session.query(Article).filter_by(id=article_id).first()
             if article is None:
                 response = {
-                    'code': '404',
+                    'code': '400',
                     'error': {
                         "type": "Not Found",
                         "message": "This article not found"
@@ -93,15 +93,12 @@ def get_comment_by_article(article_id):
             comments_list = []
             for comm in comments:
                 user = db.session.query(User).filter_by(id=comm.user_id).first()
-                timeStamp = comm.timestamp
-                timeArray = time.localtime(timeStamp)
-                timeString = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
                 comments_list.append(
                     {
                         'user_id': comm.user_id,
                         'username': user.username,
                         'text': comm.text,
-                        'time': timeString
+                        'time': comm.timestamp
                     }
                 )
             response = {
@@ -134,7 +131,7 @@ def get_comment_by_user(user_id):
             # 若没有找到评论，查看是否因为user不存在
             if user is None:
                 response = {
-                    'code': '404',
+                    'code': '400',
                     'error': {
                         "type": "Not Found",
                         "message": "This user not found"
@@ -145,16 +142,13 @@ def get_comment_by_user(user_id):
             comments_list = []
             for comm in comments:
                 article = db.session.query(Article).filter_by(id=comm.id).first()
-                timeStamp = comm.timestamp
-                timeArray = time.localtime(timeStamp)
-                timeString = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
                 if article is not None:
                     comments_list.append(
                         {
                             "article_id": article.id,
                             "article_title": article.title,
                             "text": comm.text,
-                            "time": timeString
+                            "time": comm.timestamp
                         }
                     )
             response = {

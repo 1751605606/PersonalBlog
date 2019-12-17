@@ -2,27 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ef97b29-5157-4b3f-a062-2e100b20dc65" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/blue_print/route_comment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/blue_print/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/Flask_Cors-3.0.8.dist-info/INSTALLER" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/Flask_Cors-3.0.8.dist-info/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/Flask_Cors-3.0.8.dist-info/METADATA" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/Flask_Cors-3.0.8.dist-info/RECORD" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/Flask_Cors-3.0.8.dist-info/WHEEL" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/Flask_Cors-3.0.8.dist-info/top_level.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/flask_cors/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/flask_cors/core.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/flask_cors/decorator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/flask_cors/extension.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/Lib/site-packages/flask_cors/version.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/blue_print/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/blue_print/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/blue_print/errors.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/blue_print/errors.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/blue_print/route.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/blue_print/route.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/blue_print/route_article.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/blue_print/route_article.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/sql" beforeDir="false" afterPath="$PROJECT_DIR$/app/sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/blue_print/route_comment.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/blue_print/route_comment.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

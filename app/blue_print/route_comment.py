@@ -46,7 +46,7 @@ def comment_article(article_id):
             article.comment_number += 1
             article.update_article()
             return {
-                "code": "200",
+                "code": "201",
                 "error": {},
             }
 

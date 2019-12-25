@@ -2,8 +2,7 @@ from flask import render_template
 from . import blue_print
 
 
-@blue_print.app_errorhandler(401)
-def not_logged_in(e):
+def not_logged_in():
     return {
         "code": "401",
         "error": {
@@ -14,8 +13,7 @@ def not_logged_in(e):
     }
 
 
-@blue_print.app_errorhandler(403)
-def no_access(e):
+def no_access():
     return {
         "code": "403",
         "error": {
